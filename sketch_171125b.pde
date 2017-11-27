@@ -323,7 +323,7 @@ else{
 
 
 void setup() {
-  size(1200, 630);
+  size(1250, 680);
   background(255);
   
 

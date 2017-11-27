@@ -1,24 +1,5 @@
-/*
-Particles text effects
-
-Uses particles with a seek behavior to make up a word.
-The word is loaded into memory so that each particle can figure out their own position they need to seek.
-Inspired by Daniel Shiffman's arrival explantion from The Nature of Code. (natureofcode.com)
-
-Controls:
-    - Left-click for a new word.
-    - Drag & right-click over particles to interact with them.
-    - Press any key to toggle draw styles.
-
-Author:
-  Jason Labbe
-
-Site:
-  jasonlabbe3d.com
-*/
-
-
 // Global variables
+//import gifAnimation.*;
 
 ArrayList<Particle> particles = new ArrayList<Particle>();
 int pixelSteps = 6; // Amount of pixels to skip
@@ -29,6 +10,7 @@ color bgColor = color(255, 100);
 String fontName = "Sans Sarif";
 private static final float IDEAL_FRAME_RATE = 30f;
 int count = 0;
+
 
 class Particle {
   PVector pos = new PVector(0, 0);
@@ -189,26 +171,26 @@ if(wordIndex%2==0){// one particle
       // Blend it from its current color
      
        newColor = color(0,0,0);
-        if(count==0)
-        { newColor = color(255,187,0);
+        if(wordIndex==0)
+        { newColor = color(264,83,20);
        
         }
-        else if(count==1)
+        else if(wordIndex==1)
         {
-          newColor = color(255,187,0);
+          newColor = color(264,83,20);
         }
-        else if(count==2||count==3)
+        else if(wordIndex==2||wordIndex==3)
         {
           newColor = color(124,187,0);
            
         }
-        else if(count==4 || count==5)
+        else if(wordIndex==4 || wordIndex==5)
         {
           newColor = color(0,161,241);
         }
         else 
         {
-          newColor = color(246,83,20);
+          newColor = color(255,187,0);
         }
      
         newParticle.startColor = lerpColor(newParticle.startColor, newParticle.targetColor, newParticle.colorWeight);
@@ -271,7 +253,7 @@ else{
         newParticle2.maxForce = newParticle.maxSpeed*0.025;
         newParticle2.particleSize = random(3, 6);
         newParticle2.colorBlendRate = random(0.0025, 0.03);
-        
+        if(wordIndex>2)
         particles.add(newParticle2);
         newParticle3 = new Particle();
         
@@ -282,7 +264,7 @@ else{
         newParticle3.maxForce = newParticle.maxSpeed*0.025;
         newParticle3.particleSize = random(3, 6);
         newParticle3.colorBlendRate = random(0.0025, 0.03);
-        
+        if(wordIndex>4)
         particles.add(newParticle3);
         newParticle4 = new Particle();
         
@@ -293,7 +275,7 @@ else{
         newParticle4.maxForce = newParticle.maxSpeed*0.025;
         newParticle4.particleSize = random(3, 6);
         newParticle4.colorBlendRate = random(0.0025, 0.03);
-        
+        if(wordIndex>6)
         particles.add(newParticle4);
       
       
@@ -303,7 +285,7 @@ else{
 
      
         newParticle.startColor = lerpColor(newParticle.startColor, newParticle.targetColor, newParticle.colorWeight);
-      newParticle.targetColor = color(255,187,0);
+      newParticle.targetColor = color(246,83,20);
       newParticle.colorWeight = 0;
       newParticle2.startColor = lerpColor(newParticle.startColor, newParticle.targetColor, newParticle.colorWeight);
       newParticle2.targetColor = color(124,187,0);
@@ -312,18 +294,18 @@ else{
       newParticle3.targetColor = color(0,161,241);
       newParticle3.colorWeight = 0;
       newParticle4.startColor = lerpColor(newParticle.startColor, newParticle.targetColor, newParticle.colorWeight);
-      newParticle4.targetColor = color(246,83,20);
+      newParticle4.targetColor = color(255,187,0);
       newParticle4.colorWeight = 0;
       
       // Assign the particle's new target to seek
-      newParticle.target.x = x-50;
-      newParticle.target.y = y+50;
-      newParticle2.target.x = x+50;
-      newParticle2.target.y = y+50;
-      newParticle3.target.x = x-50;
-      newParticle3.target.y = y-50;
-      newParticle4.target.x = x+50;
-      newParticle4.target.y = y-50;
+      newParticle.target.x = x-55;
+      newParticle.target.y = y-55;
+      newParticle2.target.x = x+55;
+      newParticle2.target.y = y-55;
+      newParticle3.target.x = x-55;
+      newParticle3.target.y = y+55;
+      newParticle4.target.x = x+55;
+      newParticle4.target.y = y+55;
 
     }
   }
@@ -346,14 +328,16 @@ void setup() {
   
 
   words.add("MSP Class of 2018");
+  words.add("\u2588");
   words.add("Technology");
-  words.add("Entrepreneurship");
+words.add("\u2588");
   words.add("Innovation");
-   words.add("\u2588");
-  
+ words.add("\u2588");
+  words.add("Entrepreneurship");
+ words.add("\u2588"); 
   
 
-  nextWord(words.get(count));
+  nextWord(words.get(wordIndex));
 }
 
 
@@ -362,14 +346,6 @@ void draw() {
   fill(bgColor);
   noStroke();
   rect(0, 0, width*2, height*2);
-  
-  if (frameCount % 330 == 0) 
-  {count += 1;
-  if (count > words.size()-1) { 
-         count = 0;
-       }
-       nextWord(words.get(count));
-    }
 
   for (int x = particles.size ()-1; x > -1; x--) {
     // Simulate and draw pixels
